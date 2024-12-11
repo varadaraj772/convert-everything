@@ -1,0 +1,25 @@
+{
+  "name": "convert-everything",
+  "version": "1.0.0",
+  "description": "dependency free npm package to convert units",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varadaraj772/convert-everything.git"
+  },
+  "keywords": [
+    "convert",
+    "converter",
+    "units"
+  ],
+  "author": "Varadaraj Acharya",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/varadaraj772/convert-everything/issues"
+  },
+  "homepage": "https://github.com/varadaraj772/convert-everything#readme"
+}
