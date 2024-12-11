@@ -6,3 +6,4 @@ export { energy } from "./converters/energy.js";
 export { temperature } from "./converters/temperature.js";
 export { pressure } from "./converters/pressure.js";
 export { data } from "./converters/data.js";
+export {weight} from "./converters/weight.js";

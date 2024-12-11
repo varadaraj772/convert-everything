@@ -1,4 +1,4 @@
-export const WeightMeasures = {
+const WeightMeasures = {
   Kilogram: 1,
   Gram: 1000,
   Milligram: 1e3,
@@ -8,7 +8,7 @@ export const WeightMeasures = {
   Tonne: 0.001,
 };
 
-export function convertWeight(fromUnit, toUnit, value) {
+function convertWeight(fromUnit, toUnit, value) {
   if (!WeightMeasures[fromUnit] || !WeightMeasures[toUnit]) {
     throw new Error(`Unsupported weight unit: ${fromUnit} or ${toUnit}`);
   }

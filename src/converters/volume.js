@@ -1,4 +1,4 @@
-export const VolumeMeasures = {
+const VolumeMeasures = {
     CubicMeter: 1,
     Liter: 0.001,
     Milliliter: 1e-6,
@@ -8,7 +8,7 @@ export const VolumeMeasures = {
     Gallon: 0.00378541,
 };
 
-export function convertVolume(fromUnit, toUnit, value) {
+function convertVolume(fromUnit, toUnit, value) {
     if (!VolumeMeasures[fromUnit] || !VolumeMeasures[toUnit]) {
         throw new Error(`Unsupported volume unit: ${fromUnit} or ${toUnit}`);
     }
