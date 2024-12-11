@@ -1,6 +1,6 @@
 {
   "name": "convert-everything",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "dependency free npm package to convert units",
   "main": "src/index.js",
   "type": "module",
