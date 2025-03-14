@@ -14,7 +14,9 @@
   "keywords": [
     "convert",
     "converter",
-    "units"
+    "units",
+    "units-converter",
+    "convert-everything"
   ],
   "author": "Varadaraj Acharya",
   "license": "Apache-2.0",
