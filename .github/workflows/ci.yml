@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - 18.x
+          - 20.x
+          - 22.x
+          - 24.x
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install development dependencies
+        run: npm ci
+
+      - name: Run the test suite
+        run: npm test
+
+      - name: Verify generated types are up to date
+        run: npm run check:types
+
+      - name: Type-check the declarations
+        run: npm run typecheck
+
+      - name: Verify the published package contents
+        run: npm run pack:check

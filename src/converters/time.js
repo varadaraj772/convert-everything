@@ -1,76 +1,57 @@
+import { createLinearConverter } from "../core.js";
+
+/**
+ * Time units expressed in seconds.
+ *
+ * `Month` and `Year` are average Julian values. Explicit fixed-duration
+ * units (`CommonYear`, `LeapYear`, `GregorianYear`, `Fortnight`) are also
+ * available. Calendar arithmetic belongs in `isLeapYear` and `daysInMonth`.
+ *
+ * @type {Record<string, number>}
+ */
 const TimeMeasures = {
-  Millisecond: 1e-3, 
+  Nanosecond: 1e-9,
+  Microsecond: 1e-6,
+  Millisecond: 1e-3,
   Second: 1,
   Minute: 60,
   Hour: 3600,
   Day: 86400,
   Week: 604800,
-  Month: 2.628e6,
-  Year: 3.154e7,
+  Fortnight: 1209600,
+  Month: 2629800,
+  CommonYear: 31536000,
+  GregorianYear: 31556952,
+  Year: 31557600,
+  LeapYear: 31622400,
+  Decade: 315576000,
+  Century: 3155760000,
 };
 
-function convertTime(fromUnit, toUnit, value) {
-  if (!TimeMeasures[fromUnit] || !TimeMeasures[toUnit]) {
-    throw new Error(`Unsupported time unit: ${fromUnit} or ${toUnit}`);
-  }
-  return (value * TimeMeasures[fromUnit]) / TimeMeasures[toUnit];
-}
-
-export const time = {
-  MillisecondToSecond: (value) => convertTime("Millisecond", "Second", value),
-  MillisecondToMinute: (value) => convertTime("Millisecond", "Minute", value),
-  MillisecondToHour: (value) => convertTime("Millisecond", "Hour", value),
-  MillisecondToDay: (value) => convertTime("Millisecond", "Day", value),
-  MillisecondToWeek: (value) => convertTime("Millisecond", "Week", value),
-  MillisecondToMonth: (value) => convertTime("Millisecond", "Month", value),
-  MillisecondToYear: (value) => convertTime("Millisecond", "Year", value),
-  SecondToMillisecond: (value) => convertTime("Second", "Millisecond", value),
-  SecondToMinute: (value) => convertTime("Second", "Minute", value),
-  SecondToHour: (value) => convertTime("Second", "Hour", value),
-  SecondToDay: (value) => convertTime("Second", "Day", value),
-  SecondToWeek: (value) => convertTime("Second", "Week", value),
-  SecondToMonth: (value) => convertTime("Second", "Month", value),
-  SecondToYear: (value) => convertTime("Second", "Year", value),
-  MinuteToMillisecond: (value) => convertTime("Minute", "Millisecond", value),
-  MinuteToSecond: (value) => convertTime("Minute", "Second", value),
-  MinuteToHour: (value) => convertTime("Minute", "Hour", value),
-  MinuteToDay: (value) => convertTime("Minute", "Day", value),
-  MinuteToWeek: (value) => convertTime("Minute", "Week", value),
-  MinuteToMonth: (value) => convertTime("Minute", "Month", value),
-  MinuteToYear: (value) => convertTime("Minute", "Year", value),
-  HourToMillisecond: (value) => convertTime("Hour", "Millisecond", value),
-  HourToSecond: (value) => convertTime("Hour", "Second", value),
-  HourToMinute: (value) => convertTime("Hour", "Minute", value),
-  HourToDay: (value) => convertTime("Hour", "Day", value),
-  HourToWeek: (value) => convertTime("Hour", "Week", value),
-  HourToMonth: (value) => convertTime("Hour", "Month", value),
-  HourToYear: (value) => convertTime("Hour", "Year", value),
-  DayToMillisecond: (value) => convertTime("Day", "Millisecond", value),
-  DayToSecond: (value) => convertTime("Day", "Second", value),
-  DayToMinute: (value) => convertTime("Day", "Minute", value),
-  DayToHour: (value) => convertTime("Day", "Hour", value),
-  DayToWeek: (value) => convertTime("Day", "Week", value),
-  DayToMonth: (value) => convertTime("Day", "Month", value),
-  DayToYear: (value) => convertTime("Day", "Year", value),
-  WeekToMillisecond: (value) => convertTime("Week", "Millisecond", value),
-  WeekToSecond: (value) => convertTime("Week", "Second", value),
-  WeekToMinute: (value) => convertTime("Week", "Minute", value),
-  WeekToHour: (value) => convertTime("Week", "Hour", value),
-  WeekToDay: (value) => convertTime("Week", "Day", value),
-  WeekToMonth: (value) => convertTime("Week", "Month", value),
-  WeekToYear: (value) => convertTime("Week", "Year", value),
-  MonthToMillisecond: (value) => convertTime("Month", "Millisecond", value),
-  MonthToSecond: (value) => convertTime("Month", "Second", value),
-  MonthToMinute: (value) => convertTime("Month", "Minute", value),
-  MonthToHour: (value) => convertTime("Month", "Hour", value),
-  MonthToDay: (value) => convertTime("Month", "Day", value),
-  MonthToWeek: (value) => convertTime("Month", "Week", value),
-  MonthToYear: (value) => convertTime("Month", "Year", value),
-  YearToMillisecond: (value) => convertTime("Year", "Millisecond", value),
-  YearToSecond: (value) => convertTime("Year", "Second", value),
-  YearToMinute: (value) => convertTime("Year", "Minute", value),
-  YearToHour: (value) => convertTime("Year", "Hour", value),
-  YearToDay: (value) => convertTime("Year", "Day", value),
-  YearToWeek: (value) => convertTime("Year", "Week", value),
-  YearToMonth: (value) => convertTime("Year", "Month", value),
+const TimeAliases = {
+  ns: "Nanosecond",
+  us: "Microsecond",
+  "µs": "Microsecond",
+  ms: "Millisecond",
+  s: "Second",
+  sec: "Second",
+  min: "Minute",
+  h: "Hour",
+  hr: "Hour",
+  d: "Day",
+  w: "Week",
+  wk: "Week",
+  fortnight: "Fortnight",
+  mo: "Month",
+  mon: "Month",
+  commonyear: "CommonYear",
+  gregorianyear: "GregorianYear",
+  julianyear: "Year",
+  leapyear: "LeapYear",
+  y: "Year",
+  yr: "Year",
+  dec: "Decade",
+  cent: "Century",
 };
+
+export const time = createLinearConverter(TimeMeasures, TimeAliases);
